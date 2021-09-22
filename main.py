@@ -252,30 +252,16 @@ def train_from_middletest_folder(test_folder, lr, epoch_number=None):
     # print_weights(between_layers_weights)
     make_train(test_folder, lr, between_layers_weights, start_train_epoch=last_epoch+1)
 
-def update_main_validation(test_folder, start_epoch, end_epoch):
-    """
-    if there is validate file in each epoch folder, get them all to one folder under test_folder
-    """
-    output_file = open(f"{test_folder}\\validate.txt", "a")
-    for test_number in range(start_epoch, end_epoch+1):
-        validate_test_file = open(f"{test_folder}\\epoch_{test_number}\\validate.txt", "r")
-        lines = validate_test_file.read().splitlines()
-        last_line = lines[-1]
-        output_file.write(last_line)
-        output_file.write("\n")
-    output_file.close()
-
 # hyper-parameters
-weights_dict = {0:{"rows": 3073, "columns": 2501},
+weights_dict = {0:{"rows": 3073, "columns": 2501}, # first hidden layer: 3073 input, 2501 output (including bias neuron)
                 1:{"rows": 2501, "columns": 1537},
                 2:{"rows": 1537, "columns": 10}}
-
-test_folder = "test_name"
+lr = 0.001
+test_folder = "test_name" # recomend that the name will tell something about the architecture.
 os.mkdir(test_folder)
 conf_noise = {'percent': 0.1}
 
 # train
-full_train(test_folder, 0.001, weights_dict, conf_noise)
+full_train(test_folder, lr, weights_dict, conf_noise)
 # train_from_middletest_folder(test_folder, lr=0.00001, epoch_number=20)
 # validate(test_folder)
-# update_main_validation(test_folder, start_epoch=0, end_epoch=40)
